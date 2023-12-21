@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do Application</title>
+    <style>
+        .card {
+            float: left;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 20%;
+            text-align:center;
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+
+        .display_task {
+            float: right;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5),
+               0 6px 20px 0 rgba(0,0,0,0.39);
+            margin-bottom : 5%;
+            border-radius: 25px;
+            padding : 2%;
+            width: 50%;
+            text-align:center;
+        }
+
+        body {background-color: powderblue;}
+        h1   {color: blue;}
+        p    {color: red;}
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center; color:blue">To Do Application</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-1"> </div>
+        <div class="col-md-3" >
+            <div class="card" style="background-color:#FFA07A">
+                <form action="" method="POST" onsubmit="showSuccessMsg()">
+                   {% csrf_token %}
+                    <label for="title">Title*</label><br>
+                    <input type="text" id="title" name="title"><br>
+                    <label for="description">Description*</label><br>
+                    <textarea name="description" rows="10" cols="30">Write some description...</textarea><br>
+                    <label for="date">Date (Date and Time)*</label><br>
+                    <input type="datetime-local" id="date" name="date"><br><br>
+                    <input type="submit" align="center" value="Submit"><br><br>
+                </form>
+            </div>
+        </div>
+
+        {% for x in todo_data %}
+        <div class="col-md-8">
+            <div class="display_task" style="background-color:#FFA07A">
+                <form action="del/{{x.id}}/" method="POST">
+                    {% csrf_token %}
+                    <b><label for="title">{{ x.title }}</label></b><hr>
+                    <label for="date">{{ x.date }}</label><hr>
+                    <label for="details">{{ x.details }}</label><hr>
+                    <input type="submit" name="delete" value="Remove">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function showSuccessMsg() {
+        alert("To do task created!!");
+        }
+    </script>
+
+</body>
+</html>
